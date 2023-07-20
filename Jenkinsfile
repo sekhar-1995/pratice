@@ -24,7 +24,7 @@ pipeline {
         }
       post {
         success {
-          echo "Now Archiving"
+          echo "Now Archiving."
           archiveArtifacts: '**/*.war'   
           }
        }
@@ -32,10 +32,10 @@ pipeline {
   
   stage(test) {
     steps {
-  sh 'mvn -s settings.xml latest'
+      sh 'mvn -s settings.xml latest'
   }
 }
-  stage(checkstyle-analysis){
+  stage(checkstyle){
     steps {
       sh 'mvn -s settings.xml checkstyle:checkstyle'
       } 
