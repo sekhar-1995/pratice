@@ -32,12 +32,12 @@ pipeline {
        }
      }
   
-  stage(test) {
+  stage('test') {
     steps {
       sh 'mvn -s settings.xml test'
   }
 }
-  stage(checkstyle){
+  stage('checkstyle'){
     steps {
       sh 'mvn -s settings.xml checkstyle:checkstyle'
       } 
@@ -88,6 +88,8 @@ pipeline {
             }
         }
     }
+  }
+  }
     
  post {
         always {
