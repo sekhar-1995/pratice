@@ -34,7 +34,7 @@ pipeline {
   
   stage(test) {
     steps {
-      sh 'mvn -s settings.xml latest'
+      sh 'mvn -s settings.xml test'
   }
 }
   stage(checkstyle){
@@ -63,7 +63,8 @@ pipeline {
     steps {
       timeout(time: 1,unit: 'HOURS')
          waitForQualityGate abortPipeline: true
-      }
-    } 
+        }
+      } 
+    }  
   }
 }
