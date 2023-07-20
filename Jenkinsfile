@@ -15,6 +15,8 @@ pipeline {
      NEXUSPORT = '8081'
      NEXUS_GRP_REPO = 'vpro-maven-group'
      NEXUS_LOGIN = 'nexuslogin'
+     SONARSERVER = 'sonarserver'
+     SONARSCANNER = 'sonarscanner'
   }  
 
   stages{
@@ -25,7 +27,7 @@ pipeline {
       post {
         success {
           echo "Now Archiving."
-          archiveArtifacts: '**/*.war'   
+          archiveArtifacts artifacts: '**/*.war'   
           }
        }
      }
@@ -40,5 +42,28 @@ pipeline {
       sh 'mvn -s settings.xml checkstyle:checkstyle'
       } 
     }
+  stage('SonarQube analysis') {
+            environment {
+                scannerHome = tool "${SONARSCANNER}"
+            }
+            steps {
+                withSonarQubeEnv("${SONARSERVER}") {
+                    sh "${scannerHome}/bin/sonar-scanner \
+                        -Dsonar.projectKey=my-project \
+                        -Dsonar.sources=src/main/java \
+                        -Dsonar.java.binaries=target/classes \
+                        -Dsonar.tests=src/test/java \
+                        -Dsonar.test.inclusions=**/*Test.java \
+                        -Dsonar.junit.reportPaths=target/surefire-reports \
+                        -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml"
+                }
+            }
+        }
+  stage(qualitygate){
+    steps {
+      timeout(time: 1,unit: 'HOURS')
+         waitForQualityGate abortPipeline: true
+      }
+    } 
   }
 }
