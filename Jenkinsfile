@@ -25,19 +25,19 @@ pipeline {
       post {
         success {
           echo "Now Archiving"
-          archiveArtifacts: "**/*.war"   
+          archiveArtifacts: '**/*.war'   
           }
        }
      }
   
   stage(test) {
     steps {
-  sh 'mvn install'
+  sh 'mvn -s settings.xml latest'
   }
 }
   stage(checkstyle-analysis){
     steps {
-      sh 'mvn checkstyle:checkstyle'
+      sh 'mvn -s settings.xml checkstyle:checkstyle'
       } 
     }
   }
