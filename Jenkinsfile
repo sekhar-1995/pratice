@@ -32,7 +32,7 @@ pipeline {
   
   stage(test) {
     steps {
-      sh 'mvn -s settings.xml latest'
+      sh 'mvn -s settings.xml test'
   }
 }
   stage(checkstyle){
