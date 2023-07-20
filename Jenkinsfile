@@ -35,7 +35,7 @@ pipeline {
   sh 'mvn install'
   }
 }
-  stage(checkstyle analysis){
+  stage(checkstyle-analysis){
     steps {
       sh 'mvn checkstyle:checkstyle'
       } 
