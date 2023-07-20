@@ -40,5 +40,22 @@ pipeline {
       sh 'mvn -s settings.xml checkstyle:checkstyle'
       } 
     }
+  stage('SonarQube analysis') {
+            environment {
+                scannerHome = tool "${SONARSCANNER}"
+            }
+            steps {
+                withSonarQubeEnv("${SONARSERVER}") {
+                    sh "${scannerHome}/bin/sonar-scanner \
+                        -Dsonar.projectKey=my-project \
+                        -Dsonar.sources=src/main/java \
+                        -Dsonar.java.binaries=target/classes \
+                        -Dsonar.tests=src/test/java \
+                        -Dsonar.test.inclusions=**/*Test.java \
+                        -Dsonar.junit.reportPaths=target/surefire-reports \
+                        -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml"
+                }
+            }
+        }  
   }
 }
