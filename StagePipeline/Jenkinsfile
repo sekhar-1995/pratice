@@ -21,7 +21,7 @@ pipeline {
         SONARSERVER = 'sonarserver'
         SONARSCANNER = 'sonarscanner'
         registryCredential = 'ecr:us-east-1:awscreds'
-        appRegistry = "735855287242.dkr.ecr.us-east-1.amazonaws.com/vprofile-appimg"
+        appRegistry = '735855287242.dkr.ecr.us-east-1.amazonaws.com/vprofile-appimg'
         vprofileRegistry = "https://735855287242.dkr.ecr.us-east-1.amazonaws.com"
     }
     stages {
@@ -85,7 +85,7 @@ pipeline {
         stage('build image'){
          steps{
            script {
-             dockerImage = docker.build(appRegistry + ":$BUILD_NUMBER","./Docker-files/app/multistage/")
+             dockerImage = docker.build(appRegistry + ":$BUILD_NUMBER", "./Docker-files/app/multistage/")
            }
          }
         }
